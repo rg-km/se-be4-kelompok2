@@ -143,10 +143,12 @@ function teleport(snake) {
 }
 
 function eat(snake, apple) {
+  var snakeEat = new Audio('./assets/audio/eat-apple.wav');
   if (snake.head.x == apple.position.x && snake.head.y == apple.position.y) {
     apple.position = initPosition();
     snake.score++;
     snake.body.push({ x: snake.head.x, y: snake.head.y });
+    snakeEat.play();
   }
 }
 
