@@ -131,6 +131,24 @@ function drawSpeed(snake) {
   );
 }
 
+function drawLevel(snake) {
+  let rankCanvas;
+  if (snake.color == snake1.color) {
+    rankCanvas = document.getElementById("rank-board");
+  }
+
+  let ctx = rankCanvas.getContext("2d");
+
+  clearScreen(ctx);
+  ctx.font = "20px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText(
+    "Level : " + snake.level,
+    rankCanvas.scrollWidth / 2,
+    rankCanvas.scrollHeight / 2 + 5
+  );
+}
+
 function draw() {
   setInterval(function () {
     let snakeCanvas = document.getElementById("snakeBoard");
@@ -147,6 +165,7 @@ function draw() {
     // apple 2
     drawApple(ctx, apple2);
 
+    drawLevel(snake1); // level
     drawScore(snake1); // score
     drawSpeed(snake1); // speed
   }, REDRAW_INTERVAL);
@@ -174,7 +193,12 @@ function eat(snake, apple) {
     snake.score++;
     snake.body.push({ x: snake.head.x, y: snake.head.y });
     snakeEat.play(); // play sound when eat
-    snake.speed -= 2; // increase speed
+
+    // check score
+    if (snake.score != 0 && snake.score % 5 == 0) {
+      snake.level++;
+      snake.speed -= 2; // increase speed
+    }
   }
 }
 
