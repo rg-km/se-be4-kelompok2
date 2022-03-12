@@ -98,9 +98,13 @@ function drawScore(snake) {
   let scoreCtx = scoreCanvas.getContext("2d");
 
   scoreCtx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-  scoreCtx.font = "30px Arial";
-  // scoreCtx.fillStyle = snake.color;
-  scoreCtx.fillText(snake.score, 10, scoreCanvas.scrollHeight / 2);
+  scoreCtx.font = "20px Arial";
+  scoreCtx.textAlign = "center";
+  scoreCtx.fillText(
+    "Score : " + snake.score,
+    scoreCanvas.scrollWidth / 2,
+    scoreCanvas.scrollHeight / 2 + 5
+  );
 }
 
 function clearScreen(ctx) {
