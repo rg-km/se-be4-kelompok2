@@ -38,6 +38,8 @@ function initSnake(color) {
     ...initHeadAndBody(),
     direction: initDirection(),
     score: 0,
+    level: 1,
+    speed: MOVE_INTERVAL,
   };
 }
 let snake1 = initSnake("#DBDBDB");
@@ -111,6 +113,24 @@ function drawScore(snake) {
   );
 }
 
+function drawSpeed(snake) {
+  let speedCanvas;
+  if (snake.color == snake1.color) {
+    speedCanvas = document.getElementById("speed-board");
+  }
+
+  let ctx = speedCanvas.getContext("2d");
+
+  clearScreen(ctx);
+  ctx.font = "15px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText(
+    "Speed : " + snake.speed,
+    speedCanvas.scrollWidth / 2,
+    speedCanvas.scrollHeight / 2 + 5
+  );
+}
+
 function draw() {
   setInterval(function () {
     let snakeCanvas = document.getElementById("snakeBoard");
@@ -128,6 +148,7 @@ function draw() {
     drawApple(ctx, apple2);
 
     drawScore(snake1); // score
+    drawSpeed(snake1); // speed
   }, REDRAW_INTERVAL);
 }
 
@@ -153,6 +174,7 @@ function eat(snake, apple) {
     snake.score++;
     snake.body.push({ x: snake.head.x, y: snake.head.y });
     snakeEat.play(); // play sound when eat
+    snake.speed -= 2; // increase speed
   }
 }
 
@@ -231,7 +253,7 @@ function move(snake) {
   if (!checkCollision([snake1])) {
     setTimeout(function () {
       move(snake);
-    }, MOVE_INTERVAL);
+    }, snake.speed);
   } else {
     initGame();
   }
