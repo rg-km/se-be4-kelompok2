@@ -189,7 +189,11 @@ function eat(snake, apple) {
   let eatApple = new Audio("./assets/audio/eat-apple.wav");
   let levelUp = new Audio("assets/audio/level-up.mpeg");
   if (snake.head.x == apple.position.x && snake.head.y == apple.position.y) {
-    apple.position = initPosition();
+    // make apple doesn't appear inside the body
+    if (snake.body.x != apple.position.x && snake.body.y != apple.position.y) {
+      apple.position = initPosition();
+    }
+
     snake.score++;
     snake.body.push({ x: snake.head.x, y: snake.head.y });
     eatApple.play(); // play sound when eat
