@@ -23,18 +23,10 @@
         /* box-shadow: black 20px 10px 400px; */
         border: 3px solid rgba(0, 0, 0, 0.35);
         box-sizing: border-box;
-        border-radius: 40px;
+        border-radius: 20px;
       }
 
-      .snake-head {
-        display: none;
-      }
-
-      #snake-body {
-        display: none;
-      }
-
-      #apple {
+      .asset {
         display: none;
       }
 
@@ -42,9 +34,15 @@
         margin-top: 10px;
       }
 
-      h3 {
-        font-weight: lighter;
-        margin-top: 10px;
+      #speed-board {
+        border: 0px;
+        margin-top: -23px;
+      }
+
+      #rank-board {
+        border: 0px;
+        margin-top: -45px;
+        margin-bottom: -20px;
       }
     </style>
   </head>
@@ -53,54 +51,56 @@
     <!-- snake-head -->
     <img
       id="snake-head-top"
-      class="snake-head"
-      src="assets/icons/snake-head-top.png"
+      class="asset"
+      src="assets/icons/head_up.png"
       alt="snake head"
       width="20"
       height="20"
     />
     <img
       id="snake-head-down"
-      class="snake-head"
-      src="assets/icons/snake-head-down.jpg"
+      class="asset"
+      src="assets/icons/head_down.png"
       alt="snake head"
       width="20"
       height="20"
     />
     <img
       id="snake-head-left"
-      class="snake-head"
-      src="assets/icons/snake-head-left.png"
+      class="asset"
+      src="assets/icons/head_left.png"
       alt="snake head"
       width="20"
       height="20"
     />
     <img
       id="snake-head-right"
-      class="snake-head"
-      src="assets/icons/snake-head-right.png"
+      class="asset"
+      src="assets/icons/head_right.png"
       alt="snake head"
       width="20"
       height="20"
     />
     <!-- end snake-head -->
 
-    <!-- snake-body -->
-    <img id="snake-body" src="assets/icons/snake-body.png" alt="snake-body" width="20" height="20"></img>
-    <!-- end snake-body -->
-
+    <!-- snake body-->
+    <img id="snake-body" class="asset" src="assets/icons/body.png" alt="snake-body" width="20" height="20"></img>
+    <!-- end snake body-->
+    
     <!-- apple -->
     <img
       id="apple"
+      class="asset"
       width="20"
       height="20"
-      src="assets/icons/apple.png"
+      src="assets/icons/apple.svg"
       alt="Apple"
     />
     <!-- end apple -->
 
     <h1>Snake Game</h1>
-    <h3 style="margin-top: -20px">Level 1</h3>
+    <canvas id="rank-board" width="200"
+      height="80"></canvas>
 
     <canvas
       id="score1Board"
@@ -109,7 +109,8 @@
       height="80"
     ></canvas>
 
-    <h3>Speed : 150</h3>
+    <canvas id="speed-board" width="200"
+      height="80"></canvas>
 
     <!-- js -->
     <script src="script.js"></script>
