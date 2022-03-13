@@ -1,5 +1,4 @@
 const CELL_SIZE = 20;
-// 1. board game
 const CANVAS_SIZE = 400;
 const REDRAW_INTERVAL = 50;
 const WIDTH = CANVAS_SIZE / CELL_SIZE;
@@ -187,7 +186,8 @@ function teleport(snake) {
 }
 
 function eat(snake, apple) {
-  var snakeEat = new Audio("./assets/audio/eat-apple.wav");
+  let eatApple = new Audio("./assets/audio/eat-apple.wav");
+  let levelUp = new Audio("assets/audio/level-up.mpeg");
   if (snake.head.x == apple.position.x && snake.head.y == apple.position.y) {
     // make apple doesn't appear inside the body
     if (snake.body.x != apple.position.x && snake.body.y != apple.position.y) {
@@ -195,12 +195,18 @@ function eat(snake, apple) {
     }
 
     snake.score++;
-    snake.body.push({ x: snake.head.x, y: snake.head.y }); // increment the body when eat apple
-    snakeEat.play(); // play sound when eat
+    snake.body.push({ x: snake.head.x, y: snake.head.y });
+    eatApple.play(); // play sound when eat
 
     // check score
     if (snake.score != 0 && snake.score % 5 == 0) {
-      snake.level++;
+      // set maksimum level to 5
+      if (snake.level == 5) {
+        snake.level;
+      } else {
+        levelUp.play();
+        snake.level++;
+      }
       snake.speed -= 2; // increase speed
     }
   }
@@ -236,8 +242,7 @@ function moveUp(snake) {
 
 function checkCollision(snakes) {
   let isCollide = false;
-  let gameOver = new Audio();
-  gameOver.src = "assets/audio/game-over.wav";
+  let gameOver = new Audio("assets/audio/game-over.wav");
 
   for (let i = 0; i < snakes.length; i++) {
     for (let j = 0; j < snakes.length; j++) {
