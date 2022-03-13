@@ -50,6 +50,10 @@ let apple2 = {
   position: initPosition(),
 };
 
+function clearScreen(ctx) {
+  ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+}
+
 function drawCell(ctx, x, y, snakeId) {
   let img = document.getElementById(snakeId);
   ctx.drawImage(img, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
@@ -84,7 +88,7 @@ function drawApple(ctx, apple) {
     img,
     apple.position.x * CELL_SIZE,
     apple.position.y * CELL_SIZE,
-    CELL_SIZE,
+    CELL_SIZE + 10,
     CELL_SIZE
   );
 }
@@ -97,7 +101,7 @@ function drawScore(snake) {
 
   let scoreCtx = scoreCanvas.getContext("2d");
 
-  scoreCtx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+  clearScreen(scoreCtx);
   scoreCtx.font = "20px Arial";
   scoreCtx.textAlign = "center";
   scoreCtx.fillText(
@@ -105,10 +109,6 @@ function drawScore(snake) {
     scoreCanvas.scrollWidth / 2,
     scoreCanvas.scrollHeight / 2 + 5
   );
-}
-
-function clearScreen(ctx) {
-  ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 }
 
 function draw() {
@@ -127,7 +127,7 @@ function draw() {
     // apple 2
     drawApple(ctx, apple2);
 
-    drawScore(snake1); // 6. nilai player 3
+    drawScore(snake1); // score
   }, REDRAW_INTERVAL);
 }
 
@@ -147,12 +147,12 @@ function teleport(snake) {
 }
 
 function eat(snake, apple) {
-  var snakeEat = new Audio('./assets/audio/eat-apple.wav');
+  var snakeEat = new Audio("./assets/audio/eat-apple.wav");
   if (snake.head.x == apple.position.x && snake.head.y == apple.position.y) {
     apple.position = initPosition();
     snake.score++;
     snake.body.push({ x: snake.head.x, y: snake.head.y });
-    snakeEat.play();
+    snakeEat.play(); // play sound when eat
   }
 }
 
@@ -187,7 +187,7 @@ function moveUp(snake) {
 function checkCollision(snakes) {
   let isCollide = false;
   let gameOver = new Audio();
-  gameOver.src = "assets/audio/game-over.mp3";
+  gameOver.src = "assets/audio/game-over.wav";
 
   for (let i = 0; i < snakes.length; i++) {
     for (let j = 0; j < snakes.length; j++) {
@@ -203,7 +203,7 @@ function checkCollision(snakes) {
   }
 
   if (isCollide) {
-    // gameOver.play();
+    gameOver.play();
     alert("Game over");
 
     snake1 = initSnake("#DBDBDB");
