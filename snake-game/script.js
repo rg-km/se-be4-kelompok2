@@ -196,7 +196,12 @@ function eat(snake, apple) {
 
     // check score
     if (snake.score != 0 && snake.score % 5 == 0) {
-      snake.level++;
+      // set maksimum level to 5
+      if (snake.level == 5) {
+        snake.level;
+      } else {
+        snake.level++;
+      }
       snake.speed -= 2; // increase speed
     }
   }
