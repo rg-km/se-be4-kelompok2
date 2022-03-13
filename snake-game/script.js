@@ -129,6 +129,9 @@ function drawSpeed(snake) {
     speedCanvas.scrollWidth / 2,
     speedCanvas.scrollHeight / 2 + 5
   );
+
+function clearScreen(ctx) {
+  ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 }
 
 function draw() {
