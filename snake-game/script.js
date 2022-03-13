@@ -189,9 +189,13 @@ function teleport(snake) {
 function eat(snake, apple) {
   var snakeEat = new Audio("./assets/audio/eat-apple.wav");
   if (snake.head.x == apple.position.x && snake.head.y == apple.position.y) {
-    apple.position = initPosition();
+    // make apple doesn't appear inside the body
+    if (snake.body.x != apple.position.x && snake.body.y != apple.position.y) {
+      apple.position = initPosition();
+    }
+
     snake.score++;
-    snake.body.push({ x: snake.head.x, y: snake.head.y });
+    snake.body.push({ x: snake.head.x, y: snake.head.y }); // increment the body when eat apple
     snakeEat.play(); // play sound when eat
 
     // check score
