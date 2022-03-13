@@ -10,6 +10,7 @@ const DIRECTION = {
   DOWN: 3,
 };
 const MOVE_INTERVAL = 100;
+const LIFE = 22;
 
 function initPosition() {
   return {
@@ -41,6 +42,7 @@ function initSnake(color) {
     speed: MOVE_INTERVAL,
   };
 }
+
 let snake1 = initSnake("#DBDBDB");
 
 let apple1 = {
@@ -50,6 +52,8 @@ let apple1 = {
 let apple2 = {
   position: initPosition(),
 };
+
+let totalLife = 3;
 
 function clearScreen(ctx) {
   ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
@@ -130,6 +134,15 @@ function drawSpeed(snake) {
   );
 }
 
+function drawLife(ctx, totalLife) {
+  let img = document.getElementById("life");
+  let space = CELL_SIZE;
+  for (let i = 0; i < totalLife; i++) {
+    ctx.drawImage(img, space, CELL_SIZE, CELL_SIZE, CELL_SIZE);
+    space = space + LIFE;
+  }
+}
+
 function drawLevel(snake) {
   let rankCanvas;
   if (snake.color == snake1.color) {
@@ -164,6 +177,8 @@ function draw() {
     // apple 2
     drawApple(ctx, apple2);
 
+    // 3 life
+    drawLife(ctx, totalLife);
     drawLevel(snake1); // level
     drawScore(snake1); // score
     drawSpeed(snake1); // speed
@@ -258,10 +273,17 @@ function checkCollision(snakes) {
   }
 
   if (isCollide) {
-    gameOver.play();
-    alert("Game over");
-
-    snake1 = initSnake("#DBDBDB");
+    if (totalLife == 0) {
+      gameOver.play();
+      alert("Game over");
+      
+      snake1 = initSnake("#DBDBDB");   
+      totalLife = 3;  
+    } else {
+      totalLife -= 1;
+      snake1 = initSnake("#DBDBDB"); 
+    }
+    
   }
 
   return isCollide;
