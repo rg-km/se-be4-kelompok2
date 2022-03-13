@@ -111,6 +111,10 @@ function drawScore(snake) {
   );
 }
 
+function clearScreen(ctx) {
+  ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+}
+
 function draw() {
   setInterval(function () {
     let snakeCanvas = document.getElementById("snakeBoard");
