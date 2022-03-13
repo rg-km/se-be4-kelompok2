@@ -1,5 +1,4 @@
 const CELL_SIZE = 20;
-// 1. board game
 const CANVAS_SIZE = 400;
 const REDRAW_INTERVAL = 50;
 const WIDTH = CANVAS_SIZE / CELL_SIZE;
@@ -144,6 +143,24 @@ function drawLife(ctx, totalLife) {
   }
 }
 
+function drawLevel(snake) {
+  let rankCanvas;
+  if (snake.color == snake1.color) {
+    rankCanvas = document.getElementById("rank-board");
+  }
+
+  let ctx = rankCanvas.getContext("2d");
+
+  clearScreen(ctx);
+  ctx.font = "20px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText(
+    "Level : " + snake.level,
+    rankCanvas.scrollWidth / 2,
+    rankCanvas.scrollHeight / 2 + 5
+  );
+}
+
 function draw() {
   setInterval(function () {
     let snakeCanvas = document.getElementById("snakeBoard");
@@ -162,7 +179,7 @@ function draw() {
 
     // 3 life
     drawLife(ctx, totalLife);
-
+    drawLevel(snake1); // level
     drawScore(snake1); // score
     drawSpeed(snake1); // speed
   }, REDRAW_INTERVAL);
@@ -184,13 +201,29 @@ function teleport(snake) {
 }
 
 function eat(snake, apple) {
-  var snakeEat = new Audio("./assets/audio/eat-apple.wav");
+  let eatApple = new Audio("./assets/audio/eat-apple.wav");
+  let levelUp = new Audio("assets/audio/level-up.mpeg");
   if (snake.head.x == apple.position.x && snake.head.y == apple.position.y) {
-    apple.position = initPosition();
+    // make apple doesn't appear inside the body
+    if (snake.body.x != apple.position.x && snake.body.y != apple.position.y) {
+      apple.position = initPosition();
+    }
+
     snake.score++;
     snake.body.push({ x: snake.head.x, y: snake.head.y });
-    snakeEat.play(); // play sound when eat
-    snake.speed -= 2; // increase speed
+    eatApple.play(); // play sound when eat
+
+    // check score
+    if (snake.score != 0 && snake.score % 5 == 0) {
+      // set maksimum level to 5
+      if (snake.level == 5) {
+        snake.level;
+      } else {
+        levelUp.play();
+        snake.level++;
+      }
+      snake.speed -= 2; // increase speed
+    }
   }
 }
 
@@ -224,8 +257,7 @@ function moveUp(snake) {
 
 function checkCollision(snakes) {
   let isCollide = false;
-  let gameOver = new Audio();
-  gameOver.src = "assets/audio/game-over.wav";
+  let gameOver = new Audio("assets/audio/game-over.wav");
 
   for (let i = 0; i < snakes.length; i++) {
     for (let j = 0; j < snakes.length; j++) {
