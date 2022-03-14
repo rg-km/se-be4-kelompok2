@@ -58,9 +58,27 @@ function clearScreen(ctx) {
   ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 }
 
-function drawCell(ctx, x, y, snakeId) {
+function drawCell(ctx, x, y, snakeId, cellW = CELL_SIZE, cellH = CELL_SIZE) {
   let img = document.getElementById(snakeId);
-  ctx.drawImage(img, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+  ctx.drawImage(img, x * CELL_SIZE, y * CELL_SIZE, cellW, cellH);
+}
+
+function drawCellWithoutCtx(snake, getId, message, value, font) {
+  let id;
+  if (snake.color == snake1.color) {
+    id = document.getElementById(getId);
+  }
+
+  let ctx = id.getContext("2d");
+
+  clearScreen(ctx);
+  ctx.font = font;
+  ctx.textAlign = "center";
+  ctx.fillText(
+    `${message} : ${value}`,
+    id.scrollWidth / 2,
+    id.scrollHeight / 2 + 5
+  );
 }
 
 function drawSnake(ctx, snake) {
@@ -86,51 +104,19 @@ function drawSnake(ctx, snake) {
 }
 
 function drawApple(ctx, apple) {
-  let img = document.getElementById("apple");
-
-  ctx.drawImage(
-    img,
-    apple.position.x * CELL_SIZE,
-    apple.position.y * CELL_SIZE,
-    CELL_SIZE + 10,
-    CELL_SIZE
-  );
+  drawCell(ctx, apple.position.x, apple.position.y, "apple", CELL_SIZE + 10);
 }
 
 function drawScore(snake) {
-  let scoreCanvas;
-  if (snake.color == snake1.color) {
-    scoreCanvas = document.getElementById("score1Board");
-  }
-
-  let scoreCtx = scoreCanvas.getContext("2d");
-
-  clearScreen(scoreCtx);
-  scoreCtx.font = "20px Arial";
-  scoreCtx.textAlign = "center";
-  scoreCtx.fillText(
-    "Score : " + snake.score,
-    scoreCanvas.scrollWidth / 2,
-    scoreCanvas.scrollHeight / 2 + 5
-  );
+  drawCellWithoutCtx(snake, "score1Board", "Score", snake.score, "20px Arial");
 }
 
 function drawSpeed(snake) {
-  let speedCanvas;
-  if (snake.color == snake1.color) {
-    speedCanvas = document.getElementById("speed-board");
-  }
+  drawCellWithoutCtx(snake, "speed-board", "Speed", snake.speed, "15px Arial");
+}
 
-  let ctx = speedCanvas.getContext("2d");
-
-  clearScreen(ctx);
-  ctx.font = "15px Arial";
-  ctx.textAlign = "center";
-  ctx.fillText(
-    "Speed : " + snake.speed,
-    speedCanvas.scrollWidth / 2,
-    speedCanvas.scrollHeight / 2 + 5
-  );
+function drawLevel(snake) {
+  drawCellWithoutCtx(snake, "rank-board", "Level", snake.level, "20px Arial");
 }
 
 function drawLife(totalLife) {
@@ -140,29 +126,11 @@ function drawLife(totalLife) {
   let img = document.getElementById("life");
 
   clearScreen(ctx);
-  
+
   for (let i = 0; i < totalLife; i++) {
     ctx.drawImage(img, space + 45, 20, 20, 20);
     space = space + LIFE;
   }
-}
-
-function drawLevel(snake) {
-  let rankCanvas;
-  if (snake.color == snake1.color) {
-    rankCanvas = document.getElementById("rank-board");
-  }
-
-  let ctx = rankCanvas.getContext("2d");
-
-  clearScreen(ctx);
-  ctx.font = "20px Arial";
-  ctx.textAlign = "center";
-  ctx.fillText(
-    "Level : " + snake.level,
-    rankCanvas.scrollWidth / 2,
-    rankCanvas.scrollHeight / 2 + 5
-  );
 }
 
 function draw() {
@@ -183,6 +151,7 @@ function draw() {
 
     // 3 life
     drawLife(snake1.life);
+    
     drawLevel(snake1); // level
     drawScore(snake1); // score
     drawSpeed(snake1); // speed
@@ -283,12 +252,11 @@ function checkCollision(snakes) {
     // check life point
     if (snake1.life == 0) {
       alert("Game over");
-      
-      snake1 = initSnake(3);   
+
+      snake1 = initSnake(3);
     } else {
-      snake1; 
+      snake1;
     }
-    
   }
 
   return isCollide;
