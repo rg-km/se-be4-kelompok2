@@ -247,12 +247,12 @@ function dead() {
   let lastScore = snake1.score;
   let lastLevel = snake1.level;
 
-  if (totalLife <= 0) {
+  if (snake1.life <= 0) {
     alert("Game over, play again?");
     snake1 = initSnake("#DBDBDB");
     snake1.score = 0;
     snake1.level = 1;
-    snake.life = 3;
+    snake1.life = 3;
     MOVE_INTERVAL = 100;
     initGame();
     drawLevel(snake1.level);
@@ -260,7 +260,7 @@ function dead() {
     snake1 = initSnake("#DBDBDB");
     snake1.score = lastScore;
     snake1.level = lastLevel;
-    snake.life -= 1;
+    snake1.life -= 1;
     move(snake1);
   }
 }
