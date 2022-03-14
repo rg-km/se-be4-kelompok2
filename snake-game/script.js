@@ -252,7 +252,7 @@ function dead() {
     snake1 = initSnake("#DBDBDB");
     snake1.score = 0;
     snake1.level = 1;
-    totalLife = 3;
+    snake.life = 3;
     MOVE_INTERVAL = 100;
     initGame();
     drawLevel(snake1.level);
@@ -260,7 +260,7 @@ function dead() {
     snake1 = initSnake("#DBDBDB");
     snake1.score = lastScore;
     snake1.level = lastLevel;
-    totalLife -= 1;
+    snake.life -= 1;
     move(snake1);
   }
 }
