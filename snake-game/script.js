@@ -54,6 +54,10 @@ let apple2 = {
   position: initPosition(),
 };
 
+let heart1 = {
+  position: initPosition(),
+};
+
 function clearScreen(ctx) {
   ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 }
@@ -95,6 +99,10 @@ function drawApple(ctx, apple) {
     CELL_SIZE + 10,
     CELL_SIZE
   );
+}
+
+function drawHeart(ctx, heart) {
+  drawCell(ctx, heart.position.x, heart.position.y, "heart");
 }
 
 function drawScore(snake) {
@@ -140,7 +148,7 @@ function drawLife(totalLife) {
   let img = document.getElementById("life");
 
   clearScreen(ctx);
-  
+
   for (let i = 0; i < totalLife; i++) {
     ctx.drawImage(img, space + 45, 20, 20, 20);
     space = space + LIFE;
@@ -165,6 +173,17 @@ function drawLevel(snake) {
   );
 }
 
+function checkPrime(num) {
+  let increment = 0;
+
+  for (let i = 1; i <= num; i++) {
+    if (num % i == 0) {
+      increment++;
+    }
+  }
+  return increment == 2 ? true : false;
+}
+
 function draw() {
   setInterval(function () {
     let snakeCanvas = document.getElementById("snakeBoard");
@@ -181,8 +200,14 @@ function draw() {
     // apple 2
     drawApple(ctx, apple2);
 
+    // heart
+    if (checkPrime(snake1.score)) {
+      drawHeart(ctx, heart1);
+    }
+
     // 3 life
     drawLife(snake1.life);
+
     drawLevel(snake1); // level
     drawScore(snake1); // score
     drawSpeed(snake1); // speed
@@ -204,9 +229,11 @@ function teleport(snake) {
   }
 }
 
-function eat(snake, apple) {
+function eat(snake, apple, heart) {
   let eatApple = new Audio("./assets/audio/eat-apple.wav");
   let levelUp = new Audio("assets/audio/level-up.mpeg");
+
+  // check when snake head hit the apple
   if (snake.head.x == apple.position.x && snake.head.y == apple.position.y) {
     // make apple doesn't appear inside the body
     if (snake.body.x != apple.position.x && snake.body.y != apple.position.y) {
@@ -229,34 +256,48 @@ function eat(snake, apple) {
       snake.speed -= 2; // increase speed
     }
   }
+
+  // check when snake head hit the heart
+  if (snake.head.x == heart.position.x && snake.head.y == heart.position.y) {
+    if (snake.body.x != heart.position.x && snake.body.y != heart.position.y) {
+      heart.position = initPosition();
+    }
+
+    // check snake life
+    if (snake.life === 3) {
+      snake.life;
+    } else {
+      snake.life++;
+    }
+  }
 }
 
 function moveLeft(snake) {
   snake.head.x--;
   teleport(snake);
-  eat(snake, apple1);
-  eat(snake, apple2);
+  eat(snake, apple1, heart1);
+  eat(snake, apple2, heart1);
 }
 
 function moveRight(snake) {
   snake.head.x++;
   teleport(snake);
-  eat(snake, apple1);
-  eat(snake, apple2);
+  eat(snake, apple1, heart1);
+  eat(snake, apple2, heart1);
 }
 
 function moveDown(snake) {
   snake.head.y++;
   teleport(snake);
-  eat(snake, apple1);
-  eat(snake, apple2);
+  eat(snake, apple1, heart1);
+  eat(snake, apple2, heart1);
 }
 
 function moveUp(snake) {
   snake.head.y--;
   teleport(snake);
-  eat(snake, apple1);
-  eat(snake, apple2);
+  eat(snake, apple1, heart1);
+  eat(snake, apple2, heart1);
 }
 
 function checkCollision(snakes) {
@@ -283,12 +324,11 @@ function checkCollision(snakes) {
     // check life point
     if (snake1.life == 0) {
       alert("Game over");
-      
-      snake1 = initSnake(3);   
+
+      snake1 = initSnake(3);
     } else {
-      snake1; 
+      snake1;
     }
-    
   }
 
   return isCollide;
