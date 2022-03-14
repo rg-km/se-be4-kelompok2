@@ -317,10 +317,7 @@ function eat(snake, apple, heart) {
 
   let levelUp = new Audio("./assets/audio/level-up.mpeg");
 
-  let levelUp = new Audio("assets/audio/level-up.mpeg");
-
   // check when snake head hit the apple
-
   if (snake.head.x == apple.position.x && snake.head.y == apple.position.y) {
     // make apple doesn't appear inside the body
     if (snake.body.x != apple.position.x && snake.body.y != apple.position.y) {
