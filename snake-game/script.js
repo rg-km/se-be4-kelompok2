@@ -266,8 +266,10 @@ function eat(snake, apple, heart) {
     // check snake life
     if (snake.life === 3) {
       snake.life;
+      snake.score++;
     } else {
       snake.life++;
+      snake.score++;
     }
   }
 }
