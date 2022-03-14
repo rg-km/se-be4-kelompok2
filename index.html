@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Snake Game</title>
+
+    <style>
+      body {
+        margin-top: 10px;
+        margin-left: 31px;
+        margin-right: 31px;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-image: url(./assets/icons/backgorund.jpg);
+        background-size: cover;
+      }
+
+      canvas {
+        border: 3px solid rgba(223, 230, 233,1.0);
+        box-sizing: border-box;
+        border-radius: 20px;
+      }
+
+      .asset {
+        display: none;
+      }
+
+      h1 {
+        margin-top: 10px;
+      }
+
+      #speed-board {
+        border: 0px;
+        margin-top: -23px;
+      }
+
+      #rank-board {
+        border: 0px;
+        margin-top: -45px;
+        margin-bottom: -20px;
+      }
+
+      #life-board {
+        border: 0px;
+      }
+
+    </style>
+  </head>
+  <body onload="draw();">
+    <canvas id="snakeBoard" width="400" height="400"></canvas>
+    <!-- snake-head -->
+    <img
+      id="snake-head-top"
+      class="asset"
+      src="assets/icons/head_up.png"
+      alt="snake head"
+      width="20"
+      height="20"
+    />
+    <img
+      id="snake-head-down"
+      class="asset"
+      src="assets/icons/head_down.png"
+      alt="snake head"
+      width="20"
+      height="20"
+    />
+    <img
+      id="snake-head-left"
+      class="asset"
+      src="assets/icons/head_left.png"
+      alt="snake head"
+      width="20"
+      height="20"
+    />
+    <img
+      id="snake-head-right"
+      class="asset"
+      src="assets/icons/head_right.png"
+      alt="snake head"
+      width="20"
+      height="20"
+    />
+    <!-- end snake-head -->
+
+    <!-- snake body-->
+    <img id="snake-body" class="asset" src="assets/icons/body.png" alt="snake-body" width="20" height="20"></img>
+    <!-- end snake body-->
+    
+    <!-- apple -->
+    <img
+      id="apple"
+      class="asset"
+      width="20"
+      height="20"
+      src="assets/icons/apple.svg"
+      alt="Apple"
+    />
+    <!-- end apple -->
+
+    <!-- life -->
+    <img
+      id="heart"
+      class="asset"
+      width="20"
+      height="20"
+      src="assets/icons/life.png"
+      alt="Life"
+    />
+    <img
+      id="life"
+      class="asset"
+      width="15"
+      height="15"
+      src="assets/icons/life.png"
+      alt="Life"
+    />
+    <!-- end life -->
+
+    <canvas 
+      id="life-board" 
+      width="200"
+      height="40">
+    </canvas>
+
+    <h1>Snake Game</h1>
+    <canvas id="rank-board" width="200"
+      height="80"></canvas>
+
+    <canvas
+      id="score1Board"
+      style="background-color: #b8e994; border-radius: 20px"
+      width="200"
+      height="70"
+    ></canvas>
+
+    <canvas id="speed-board" width="200"
+      height="80"></canvas>
+
+    <!-- js -->
+    <script src="script.js"></script>
+  </body>
+</html>
