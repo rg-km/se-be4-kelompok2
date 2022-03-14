@@ -44,6 +44,11 @@
         margin-top: -45px;
         margin-bottom: -20px;
       }
+
+      #life-board {
+        border: 0px;
+      }
+
     </style>
   </head>
   <body onload="draw();">
@@ -109,6 +114,12 @@
     />
     <!-- end apple -->
 
+    <canvas 
+      id="life-board" 
+      width="200"
+      height="40">
+    </canvas>
+
     <h1>Snake Game</h1>
     <canvas id="rank-board" width="200"
       height="80"></canvas>
@@ -117,7 +128,7 @@
       id="score1Board"
       style="background-color: #b8e994; border-radius: 20px"
       width="200"
-      height="80"
+      height="70"
     ></canvas>
 
     <canvas id="speed-board" width="200"

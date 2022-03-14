@@ -134,11 +134,16 @@ function drawSpeed(snake) {
   );
 }
 
-function drawLife(ctx, totalLife) {
-  let img = document.getElementById("life");
+function drawLife(totalLife) {
+  let lifeCanvas = document.getElementById("life-board");
+  let ctx = lifeCanvas.getContext("2d");
   let space = CELL_SIZE;
+  let img = document.getElementById("life");
+
+  clearScreen(ctx);
+  
   for (let i = 0; i < totalLife; i++) {
-    ctx.drawImage(img, space, CELL_SIZE, CELL_SIZE, CELL_SIZE);
+    ctx.drawImage(img, space + 45, 20, 20, 20);
     space = space + LIFE;
   }
 }
@@ -178,7 +183,7 @@ function draw() {
     drawApple(ctx, apple2);
 
     // 3 life
-    drawLife(ctx, totalLife);
+    drawLife(totalLife);
     drawLevel(snake1); // level
     drawScore(snake1); // score
     drawSpeed(snake1); // speed
