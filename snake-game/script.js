@@ -11,6 +11,7 @@ const DIRECTION = {
 };
 const MOVE_INTERVAL = 100;
 const LIFE = 22;
+const SPACE_OBSTACLE = 22;
 
 function initPosition() {
   return {
@@ -152,6 +153,118 @@ function checkPrime(num) {
   return increment == 2 ? true : false;
 }
 
+function drawWall(ctx, wall) {
+  let wl = document.getElementById("wall");
+  ctx.drawImage(wl, wall.position.x, wall.position.y , 300, 20);
+}
+
+function drawObstacle(ctx, level) {
+  ctx.color = 'black';
+
+  switch (level) {
+    case 2:
+      for (let i=5; i<=25; i++) {
+        for (let j=15; j<=15; j++) {
+          ctx.fillRect(i * CELL_SIZE, CELL_SIZE*j, CELL_SIZE, CELL_SIZE);
+        }
+      }
+    
+      if (snake1.head.x >= 5 && snake1.head.x <= 25 &&
+        snake1.head.y >= 15 && snake1.head.y <= 15) {
+          dead();
+      }
+      break;
+    case 3:
+      for (let i=5; i<=25; i++) {
+        for (let j=10; j<=10; j++) {
+          ctx.fillRect(i * CELL_SIZE, CELL_SIZE*j, CELL_SIZE, CELL_SIZE);
+        }
+      }
+    
+      if (snake1.head.x >= 5 && snake1.head.x <= 25 &&
+        snake1.head.y >= 10 && snake1.head.y <= 10) {
+          dead();
+      }
+    
+      for (let i=5; i<=25; i++) {
+        for (let j=20; j<=20; j++) {
+          ctx.fillRect(i * CELL_SIZE, CELL_SIZE*j, CELL_SIZE, CELL_SIZE);
+        }
+      }
+    
+      if (snake1.head.x >= 5 && snake1.head.x <= 25 &&
+        snake1.head.y >= 20 && snake1.head.y <= 20) {
+          dead();
+      }
+      break;
+    case 4:
+      for (let i=5; i<=25; i++) {
+        for (let j=10; j<=10; j++) {
+          ctx.fillRect(i * CELL_SIZE, CELL_SIZE*j, CELL_SIZE, CELL_SIZE);
+        }
+      }
+    
+      if (snake1.head.x >= 5 && snake1.head.x <= 25 &&
+        snake1.head.y >= 10 && snake1.head.y <= 10) {
+          dead();
+      }
+    
+      for (let i=5; i<=25; i++) {
+        for (let j=15; j<=15; j++) {
+          ctx.fillRect(i * CELL_SIZE, CELL_SIZE*j, CELL_SIZE, CELL_SIZE);
+        }
+      }
+    
+      if (snake1.head.x >= 5 && snake1.head.x <= 25 &&
+        snake1.head.y >= 15 && snake1.head.y <= 15) {
+          dead();
+      }
+    
+      for (let i=5; i<=25; i++) {
+        for (let j=20; j<=20; j++) {
+          ctx.fillRect(i * CELL_SIZE, CELL_SIZE*j, CELL_SIZE, CELL_SIZE);
+        }
+      }
+    
+      if (snake1.head.x >= 5 && snake1.head.x <= 25 &&
+        snake1.head.y >= 20 && snake1.head.y <= 20) {
+          dead();
+      }
+      break;
+    case 5:
+      ctx.fillRect(WIDTH*16, HEIGHT*5 , 20, 300);
+      ctx.fillRect(WIDTH*3, HEIGHT*5 , 20, 300);
+
+      if (snake1.head.x >= 16 && snake1.head.x <= WIDTH*16 &&
+        snake1.head.y >= 20 && snake1.head.y <= 20) {
+
+      }
+      break;
+  }
+}
+
+function dead() {
+  let lastScore = snake1.score;
+  let lastLevel = snake1.level;
+
+  if (totalLife <= 0) {
+    alert("Game over, play again?");
+    snake1 = initSnake("#DBDBDB");
+    snake1.score = 0;
+    snake1.level = 1;
+    totalLife = 3;
+    MOVE_INTERVAL = 100;
+    initGame();
+    drawLevel(snake1.level);
+  } else {
+    snake1 = initSnake("#DBDBDB");
+    snake1.score = lastScore;
+    snake1.level = lastLevel;
+    totalLife -= 1;
+    move(snake1);
+  }
+}
+
 function draw() {
   setInterval(function () {
     let snakeCanvas = document.getElementById("snakeBoard");
@@ -179,6 +292,8 @@ function draw() {
     drawLevel(snake1); // level
     drawScore(snake1); // score
     drawSpeed(snake1); // speed
+    //obstacle
+    drawObstacle(ctx, snake1.level);
   }, REDRAW_INTERVAL);
 }
 
@@ -199,9 +314,13 @@ function teleport(snake) {
 
 function eat(snake, apple, heart) {
   let eatApple = new Audio("./assets/audio/eat-apple.wav");
+
+  let levelUp = new Audio("./assets/audio/level-up.mpeg");
+
   let levelUp = new Audio("assets/audio/level-up.mpeg");
 
   // check when snake head hit the apple
+
   if (snake.head.x == apple.position.x && snake.head.y == apple.position.y) {
     // make apple doesn't appear inside the body
     if (snake.body.x != apple.position.x && snake.body.y != apple.position.y) {
@@ -214,6 +333,7 @@ function eat(snake, apple, heart) {
 
     // check score
     if (snake.score != 0 && snake.score % 5 == 0) {
+
       // set maksimum level to 5
       if (snake.level == 5) {
         snake.level;
