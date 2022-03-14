@@ -32,18 +32,19 @@ function initDirection() {
   return Math.floor(Math.random() * 4);
 }
 
-function initSnake(color) {
+function initSnake(life) {
   return {
-    color: color,
+    color: "#DBDBDB",
     ...initHeadAndBody(),
     direction: initDirection(),
     score: 0,
     level: 1,
+    life: life,
     speed: MOVE_INTERVAL,
   };
 }
 
-let snake1 = initSnake("#DBDBDB");
+let snake1 = initSnake(3);
 
 let apple1 = {
   position: initPosition(),
@@ -52,8 +53,6 @@ let apple1 = {
 let apple2 = {
   position: initPosition(),
 };
-
-let totalLife = 3;
 
 function clearScreen(ctx) {
   ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
@@ -183,7 +182,7 @@ function draw() {
     drawApple(ctx, apple2);
 
     // 3 life
-    drawLife(totalLife);
+    drawLife(snake1.life);
     drawLevel(snake1); // level
     drawScore(snake1); // score
     drawSpeed(snake1); // speed
@@ -278,15 +277,16 @@ function checkCollision(snakes) {
   }
 
   if (isCollide) {
-    if (totalLife == 0) {
-      gameOver.play();
+    gameOver.play();
+    snake1.life -= 1;
+
+    // check life point
+    if (snake1.life == 0) {
       alert("Game over");
       
-      snake1 = initSnake("#DBDBDB");   
-      totalLife = 3;  
+      snake1 = initSnake(3);   
     } else {
-      totalLife -= 1;
-      snake1 = initSnake("#DBDBDB"); 
+      snake1; 
     }
     
   }
